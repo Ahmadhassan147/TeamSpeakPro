@@ -1,0 +1,7 @@
+Question: What's your name?
+
+Answer: My name is Ahmad Hassan.Question: What do you do?
+
+Answer: I am a student of information technology at University of Agriculture Fest labadheen.Question: Do you live in a house or an apartment?
+
+Answer: I live in a house.
