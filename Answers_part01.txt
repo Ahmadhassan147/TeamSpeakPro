@@ -1,7 +1,11 @@
 Question: What's your name?
 
-Answer: My name is Ahmad Hassan.Question: What do you do?
+Answer: My name is Ahmed Hassan.Question: What do you do?
 
-Answer: I am a student of information technology at University of Agriculture Fest labadheen.Question: Do you live in a house or an apartment?
+Answer: Just recording and.Question: Do you like living in a big city or a small town?
 
-Answer: I live in a house.
+Answer: I really like to live in a big city.Question: What do you usually do on weekends?
+
+Answer: I live, we do nothing.Question: Do you have a favorite hobby or activity?
+
+Answer: No, I don't have any of the tv.

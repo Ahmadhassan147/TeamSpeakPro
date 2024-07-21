@@ -9,13 +9,14 @@ import pyaudio
 import wave
 import os
 from together import Together
+import win32com.client as wn
 
 
 def genrate_part1():
     client = Together(api_key= "27b92a686e62fa3c74cb22729a1d0bc26e377cb64ac39d3694355f4c5a1b804f")
 
     stream = client.chat.completions.create(
-        model="meta-llama/Meta-Llama-3-70B-Instruct-Turbo",
+        model="meta-llama/Llama-3-70b-chat-hf",
         messages=[{"role": "user", "content": """Do not include any starting lines like "here's the question" or anything else.Provide me IELTS Part One of the speaking module with random questions. Provide only the questions, nothing else. Include two general lines like "What's your name?" and "What do you do?" followed by 7-8 random questions for Part One."""}],
         max_tokens=512,
         temperature=0.7,
@@ -33,8 +34,66 @@ def genrate_part1():
                 # print(content, end="", flush=True)
                 file.write(content)
 
+def genrate_part2(previoustopic):
+    client = Together(api_key= "27b92a686e62fa3c74cb22729a1d0bc26e377cb64ac39d3694355f4c5a1b804f")
+
+    stream = client.chat.completions.create(
+        model="meta-llama/Llama-3-70b-chat-hf",
+        messages=[{"role": "user", "content": f"""Do not include any starting lines like "here's the topic" or don't add description about topic and anything else.Generate a random IELTS Part Two speaking that is completely different from {previoustopic} with maximum leangth of 6,7 words, very short like 1 sentance, 3,4 bulit question and at the end add line "You have 1 minute to prepare, and then you will speak for 2 minutes."."""}],
+        max_tokens=512,
+        temperature=0.7,
+        top_p=0.7,
+        top_k=50,
+        repetition_penalty=1,
+        stop=["<|eot_id|>"],
+        stream=True
+    )
+    # print(response.choices[0].message.content)
+    with open("Question_for_part02.txt", "w") as file:
+        for chunk in stream:            
+            if hasattr(chunk.choices[0].delta, 'content'):
+                content = chunk.choices[0].delta.content
+                print(content, end="", flush=True)
+                file.write(content)
 
 
+def genrate_part3(part2):
+    client = Together(api_key= "27b92a686e62fa3c74cb22729a1d0bc26e377cb64ac39d3694355f4c5a1b804f")
+
+    stream = client.chat.completions.create(
+        model="meta-llama/Llama-3-70b-chat-hf",
+        messages=[{"role": "user", "content": f"""Do not include any starting lines like "here's the topic" or don't add description about topic and anything else.Generate 2 followUp question and 5,6 opinion question relted to part 2 topic for section 3 for IELTS speaking depending upon the part 2 which is {part2}, Provide me only question noting ealse. No heading, no starting line directly number them."""}],
+        max_tokens=512,
+        temperature=0.7,
+        top_p=0.7,
+        top_k=50,
+        repetition_penalty=1,
+        stop=["<|eot_id|>"],
+        stream=True
+    )
+    # print(response.choices[0].message.content)
+    with open("Question_for_part03.txt", "w") as file:
+        for chunk in stream:            
+            if hasattr(chunk.choices[0].delta, 'content'):
+                content = chunk.choices[0].delta.content
+                print(content, end="", flush=True)
+                file.write(content)
+
+def genP2():
+    with open('Question_for_part02.txt', 'r') as file:
+    # Read the content of the file
+        ab = file.read()
+        genrate_part2(ab)
+
+def genP3():
+    with open('Question_for_part02.txt', 'r') as file:
+    # Read the content of the file
+        ab = file.read()
+        genrate_part3(ab)
+
+        
+# genP2()
+# genP3()
 
 def transcribe(fname,question_statement):
     print("Transcribing.....")
@@ -99,10 +158,14 @@ def show_questions_p1(fname_to_open):
         # Read the first line
         lines = file.readlines()
         line_count = len(lines)
+        robo = wn.Dispatch("SAPI.SpVoice")
         for i in range(line_count):
             first_line = lines[i] if lines else "File is empty"
             print(f"Quesntion {i}: {first_line}")
+            robo.Speak(first_line)
             record(first_line)
+        print("\n\nThis is end the end of Ielts Speaking Part 01, Now We Will Move toward Part 02.")
+        robo.Speak("This is the end of Speaking Part 1, Now We Will Move toward Part 2.")
 
 
 
@@ -120,6 +183,9 @@ def record(question_statement):
         if keyboard.is_pressed('space'):
             if not is_recording:
                 start_recording()
+        elif keyboard.is_pressed('esc'):
+            print("Exited Ielts Test, Thanks!!")
+            break
         else:
             if is_recording:
                 fname = stop_recording()

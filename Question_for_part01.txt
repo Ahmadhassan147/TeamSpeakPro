@@ -1,9 +1,9 @@
 What's your name?
 What do you do?
-Do you live in a house or an apartment?
-How often do you use the internet?
-Do you prefer to spend time alone or with friends?
-What's your favorite season and why?
-Have you ever learned a new skill or hobby as an adult?
-Do you prefer to read books or watch movies?
-Do you think it's important to learn about history?
+Do you like living in a big city or a small town?
+What do you usually do on weekends?
+Do you have a favorite hobby or activity?
+How often do you eat out at restaurants?
+What kind of music do you like listening to?
+Do you prefer watching movies at home or at the cinema?
+Have you ever learned a new skill or taken a course in your free time?
